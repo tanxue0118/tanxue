@@ -38,7 +38,7 @@
     <!-- 导航栏 -->
     <nav id="navbar">
         <div class="nav-container">
-            <a href="#" class="logo" id="logo-link">
+            <a href="#" class="logo" id="logo-link" onclick="event.preventDefault(); navigateTo('home');">
                 <svg class="cat-icon" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
                     <path d="M30 45 L18 12 L48 35 Z" fill="#6c5ce7"/>
                     <path d="M90 45 L102 12 L72 35 Z" fill="#6c5ce7"/>
@@ -52,16 +52,16 @@
                 <span>一只做梦的猫</span>
             </a>
             <div class="nav-links" id="nav-links">
-                <a href="#" class="nav-link active" data-target="home">
+                <a href="#" class="nav-link active" data-target="home" onclick="event.preventDefault(); navigateTo('home');">
                     <i class="fas fa-home"></i><span>首页</span>
                 </a>
-                <a href="#" class="nav-link" data-target="about">
+                <a href="#" class="nav-link" data-target="about" onclick="event.preventDefault(); navigateTo('about');">
                     <i class="fas fa-user"></i><span>关于我</span>
                 </a>
-                <a href="#" class="nav-link" data-target="projects">
+                <a href="#" class="nav-link" data-target="projects" onclick="event.preventDefault(); navigateTo('projects');">
                     <i class="fas fa-code"></i><span>项目</span>
                 </a>
-                <a href="#" class="nav-link" data-target="contact">
+                <a href="#" class="nav-link" data-target="contact" onclick="event.preventDefault(); navigateTo('contact');">
                     <i class="fas fa-envelope"></i><span>联系我</span>
                 </a>
             </div>
@@ -116,10 +116,10 @@
                     </div>
 
                     <div class="hero-buttons">
-                        <a href="#" class="btn btn-primary" data-target="projects">
+                        <a href="#" class="btn btn-primary" onclick="event.preventDefault(); navigateTo('projects');">
                             <i class="fas fa-rocket"></i> 查看项目
                         </a>
-                        <a href="#" class="btn btn-outline" data-target="contact">
+                        <a href="#" class="btn btn-outline" onclick="event.preventDefault(); navigateTo('contact');">
                             <i class="fas fa-paper-plane"></i> 联系我
                         </a>
                     </div>

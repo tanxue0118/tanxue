@@ -95,60 +95,35 @@ function initAnnouncement() {
 
 // ===== 导航功能 =====
 function initNavigation() {
-    var navLinks = document.querySelectorAll('.nav-link');
     var hamburger = document.getElementById('hamburger');
     var navLinksContainer = document.getElementById('nav-links');
-    var logoLink = document.getElementById('logo-link');
 
-    function closeMobileMenu() {
+    window.navigateTo = function(target) {
         hamburger.classList.remove('active');
         navLinksContainer.classList.remove('active');
-    }
-
-    navLinks.forEach(function(link) {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            var target = this.getAttribute('data-target');
-            closeMobileMenu();
-            setTimeout(function() {
-                showSection(target);
-                updateActiveNav(document.querySelector('.nav-link[data-target="' + target + '"]'));
-            }, 100);
+        document.body.style.overflow = '';
+        
+        showSection(target);
+        
+        var allLinks = document.querySelectorAll('.nav-link');
+        allLinks.forEach(function(link) {
+            link.classList.remove('active');
+            if (link.getAttribute('data-target') === target) {
+                link.classList.add('active');
+            }
         });
-    });
+    };
 
-    logoLink.addEventListener('click', function(e) {
-        e.preventDefault();
-        closeMobileMenu();
-        setTimeout(function() {
-            showSection('home');
-            updateActiveNav(document.querySelector('[data-target="home"]'));
-        }, 100);
-    });
-
-    hamburger.addEventListener('click', function(e) {
-        e.stopPropagation();
-        this.classList.toggle('active');
+    hamburger.addEventListener('click', function() {
+        var isActive = this.classList.toggle('active');
         navLinksContainer.classList.toggle('active');
-    });
-
-    document.addEventListener('click', function(e) {
-        if (!navLinksContainer.contains(e.target) && !hamburger.contains(e.target)) {
-            closeMobileMenu();
-        }
+        document.body.style.overflow = isActive ? 'hidden' : '';
     });
 
     document.querySelectorAll('.btn[data-target]').forEach(function(btn) {
         btn.addEventListener('click', function(e) {
             e.preventDefault();
-            e.stopPropagation();
-            var target = this.getAttribute('data-target');
-            closeMobileMenu();
-            setTimeout(function() {
-                showSection(target);
-                updateActiveNav(document.querySelector('.nav-link[data-target="' + target + '"]'));
-            }, 100);
+            navigateTo(this.getAttribute('data-target'));
         });
     });
 }

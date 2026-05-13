@@ -192,9 +192,10 @@ nav {
     display: block;
     width: 25px;
     height: 3px;
-    background: var(--text-primary);
+    background: #ffffff;
     border-radius: 2px;
     transition: var(--transition);
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
 }
 
 .hamburger.active span:nth-child(1) {
@@ -958,6 +959,9 @@ footer p {
 @media (max-width: 768px) {
     .hamburger {
         display: flex;
+        background: rgba(108, 92, 231, 0.3);
+        border-radius: 8px;
+        padding: 8px;
     }
 
     .nav-links {
