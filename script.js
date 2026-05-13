@@ -233,33 +233,37 @@ function initProjects() {
     var projects = [
         {
             title: 'ProcessKill',
-            icon: 'fas fa-puzzle-piece',
-            description: '一个实用的进程管理工具。',
-            tags: ['Tool'],
-            link: 'https://github.com/tanxue0118/ProcessKill'
+            icon: 'fas fa-skull-crossbones',
+            description: '一个实用的进程管理工具，帮助用户管理和终止进程。',
+            tags: ['Tool', 'Process'],
+            link: 'https://github.com/tanxue0118/ProcessKill',
+            stars: 8
         },
         {
-            title: 'processkill1',
-            icon: 'fas fa-bolt',
-            description: 'ProcessKill 的扩展项目。',
-            tags: ['Tool'],
-            link: 'https://github.com/tanxue0118/processkill1'
+            title: 'Processkill-Donation',
+            icon: 'fas fa-hand-holding-heart',
+            description: 'ProcessKill 捐赠支持版本，包含更多高级功能。',
+            tags: ['Tool', 'Donation'],
+            link: 'https://github.com/tanxue0118/Processkill-Donation',
+            stars: 0
         },
         {
             title: 'tanxue',
             icon: 'fas fa-globe',
-            description: '个人主页项目，使用 HTML 构建。',
-            tags: ['HTML'],
-            link: 'https://github.com/tanxue0118/tanxue'
+            description: '我的个人博客网站，使用原生 HTML/CSS/JS 构建。',
+            tags: ['HTML', 'CSS', 'JavaScript'],
+            link: 'https://github.com/tanxue0118/tanxue',
+            stars: 0
         }
     ];
 
     var grid = document.getElementById('projects-grid');
     grid.innerHTML = projects.map(function(p) {
+        var starsHtml = p.stars > 0 ? '<span class="project-stars"><i class="fas fa-star"></i> ' + p.stars + '</span>' : '';
         return '<div class="project-card">' +
             '<div class="project-header">' +
                 '<div class="project-icon"><i class="' + p.icon + '"></i></div>' +
-                '<div class="project-info"><h3>' + p.title + '</h3><span>开源项目</span></div>' +
+                '<div class="project-info"><h3>' + p.title + '</h3><span>开源项目 ' + starsHtml + '</span></div>' +
             '</div>' +
             '<div class="project-body">' +
                 '<p>' + p.description + '</p>' +
