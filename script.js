@@ -100,40 +100,57 @@ function initNavigation() {
     var navLinksContainer = document.getElementById('nav-links');
     var logoLink = document.getElementById('logo-link');
 
+    function closeMobileMenu() {
+        hamburger.classList.remove('active');
+        navLinksContainer.classList.remove('active');
+    }
+
     navLinks.forEach(function(link) {
         link.addEventListener('click', function(e) {
             e.preventDefault();
-            showSection(this.getAttribute('data-target'));
-            updateActiveNav(this);
+            e.stopPropagation();
+            var target = this.getAttribute('data-target');
             closeMobileMenu();
+            setTimeout(function() {
+                showSection(target);
+                updateActiveNav(document.querySelector('.nav-link[data-target="' + target + '"]'));
+            }, 100);
         });
     });
 
     logoLink.addEventListener('click', function(e) {
         e.preventDefault();
-        showSection('home');
-        updateActiveNav(document.querySelector('[data-target="home"]'));
         closeMobileMenu();
+        setTimeout(function() {
+            showSection('home');
+            updateActiveNav(document.querySelector('[data-target="home"]'));
+        }, 100);
     });
 
-    hamburger.addEventListener('click', function() {
+    hamburger.addEventListener('click', function(e) {
+        e.stopPropagation();
         this.classList.toggle('active');
         navLinksContainer.classList.toggle('active');
+    });
+
+    document.addEventListener('click', function(e) {
+        if (!navLinksContainer.contains(e.target) && !hamburger.contains(e.target)) {
+            closeMobileMenu();
+        }
     });
 
     document.querySelectorAll('.btn[data-target]').forEach(function(btn) {
         btn.addEventListener('click', function(e) {
             e.preventDefault();
-            showSection(this.getAttribute('data-target'));
-            updateActiveNav(document.querySelector('.nav-link[data-target="' + this.getAttribute('data-target') + '"]'));
+            e.stopPropagation();
+            var target = this.getAttribute('data-target');
             closeMobileMenu();
+            setTimeout(function() {
+                showSection(target);
+                updateActiveNav(document.querySelector('.nav-link[data-target="' + target + '"]'));
+            }, 100);
         });
     });
-
-    function closeMobileMenu() {
-        hamburger.classList.remove('active');
-        navLinksContainer.classList.remove('active');
-    }
 }
 
 function showSection(id) {

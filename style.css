@@ -181,7 +181,11 @@ nav {
     background: none;
     border: none;
     cursor: pointer;
-    padding: 5px;
+    padding: 10px;
+    z-index: 1001;
+    -webkit-tap-highlight-color: transparent;
+    min-width: 44px;
+    min-height: 44px;
 }
 
 .hamburger span {
@@ -944,6 +948,10 @@ footer p {
     .nav-link {
         -webkit-tap-highlight-color: transparent;
     }
+
+    .nav-link:active {
+        background: rgba(108, 92, 231, 0.2);
+    }
 }
 
 /* 响应式 */
@@ -957,28 +965,41 @@ footer p {
         top: 70px;
         left: 0;
         width: 100%;
+        height: calc(100vh - 70px);
         background: rgba(10, 10, 26, 0.98);
         backdrop-filter: blur(20px);
         flex-direction: column;
-        padding: 1.5rem;
-        gap: 0.5rem;
-        transform: translateY(-100%);
+        padding: 2rem 1.5rem;
+        gap: 0.8rem;
+        transform: translateX(100%);
         opacity: 0;
         visibility: hidden;
-        transition: var(--transition);
+        transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+        overflow-y: auto;
+        z-index: 999;
     }
 
     .nav-links.active {
-        transform: translateY(0);
+        transform: translateX(0);
         opacity: 1;
         visibility: visible;
     }
 
     .nav-link {
-        padding: 14px 20px;
+        padding: 16px 24px;
         justify-content: center;
-        font-size: 1.05rem;
+        font-size: 1.1rem;
         border-radius: 12px;
+        min-height: 52px;
+        display: flex;
+        align-items: center;
+        -webkit-tap-highlight-color: transparent;
+        user-select: none;
+    }
+
+    .nav-link:active {
+        background: rgba(108, 92, 231, 0.2);
+        transform: scale(0.98);
     }
 
     .nav-link i {
