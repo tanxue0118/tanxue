@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>一只做梦的猫的小窝</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- 雪花层 -->
+    <canvas id="snow-canvas"></canvas>
+
+    <!-- 加载动画 -->
+    <div class="loader" id="loader">
+        <div class="loader-content">
+            <div class="cat-loader">
+                <svg class="cat-svg" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M30 45 L18 12 L48 35 Z" fill="#6c5ce7"/>
+                    <path d="M90 45 L102 12 L72 35 Z" fill="#6c5ce7"/>
+                    <path d="M33 42 L25 20 L45 37 Z" fill="#a29bfe"/>
+                    <path d="M87 42 L95 20 L75 37 Z" fill="#a29bfe"/>
+                    <ellipse cx="60" cy="60" rx="35" ry="30" fill="#6c5ce7"/>
+                    <path d="M42 55 Q47 60 52 55" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+                    <path d="M68 55 Q73 60 78 55" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+                    <path d="M57 65 L60 68 L63 65 Z" fill="#fd79a8"/>
+                    <text x="85" y="35" font-size="16" fill="#a29bfe" opacity="0.8">z</text>
+                    <text x="95" y="25" font-size="12" fill="#a29bfe" opacity="0.6">z</text>
+                </svg>
+            </div>
+            <p>正在加载小窝...</p>
+        </div>
+    </div>
+
+    <!-- 导航栏 -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo" id="logo-link">
+                <svg class="cat-icon" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M30 45 L18 12 L48 35 Z" fill="#6c5ce7"/>
+                    <path d="M90 45 L102 12 L72 35 Z" fill="#6c5ce7"/>
+                    <ellipse cx="60" cy="60" rx="35" ry="30" fill="#6c5ce7"/>
+                    <ellipse cx="45" cy="55" rx="6" ry="7" fill="white"/>
+                    <ellipse cx="75" cy="55" rx="6" ry="7" fill="white"/>
+                    <ellipse cx="46" cy="56" rx="4" ry="5" fill="#2d3436"/>
+                    <ellipse cx="76" cy="56" rx="4" ry="5" fill="#2d3436"/>
+                    <path d="M57 65 L60 68 L63 65 Z" fill="#fd79a8"/>
+                </svg>
+                <span>一只做梦的猫</span>
+            </a>
+            <div class="nav-links" id="nav-links">
+                <a href="#" class="nav-link active" data-target="home">
+                    <i class="fas fa-home"></i><span>首页</span>
+                </a>
+                <a href="#" class="nav-link" data-target="about">
+                    <i class="fas fa-user"></i><span>关于我</span>
+                </a>
+                <a href="#" class="nav-link" data-target="projects">
+                    <i class="fas fa-code"></i><span>项目</span>
+                </a>
+                <a href="#" class="nav-link" data-target="contact">
+                    <i class="fas fa-envelope"></i><span>联系我</span>
+                </a>
+            </div>
+            <button class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- 主要内容 -->
+    <main>
+        <!-- ===== 首页 ===== -->
+        <section id="home" class="section active">
+            <div class="hero">
+                <div class="hero-content">
+                    <div class="hero-avatar">
+                        <img src="avatar.jpg" alt="头像" id="avatar-img">
+                        <div class="avatar-ring"></div>
+                    </div>
+                    <h1 class="hero-title">
+                        <span class="greeting">你好，我是</span>
+                        <span class="name">一只做梦的猫</span>
+                    </h1>
+                    <p class="hero-subtitle">
+                        <span class="typing-text" id="typing-text"></span>
+                        <span class="cursor">|</span>
+                    </p>
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <span class="stat-number" data-target="1">0</span>
+                            <span class="stat-label">年开发经验</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" data-target="3">0</span>
+                            <span class="stat-label">开源项目</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" data-target="388">0</span>
+                            <span class="stat-label">粉丝数量</span>
+                        </div>
+                    </div>
+                    <!-- 今日公告 -->
+                    <div class="announcement" id="announcement">
+                        <div class="announcement-header">
+                            <i class="fas fa-bullhorn"></i>
+                            <span class="announcement-label">今日公告</span>
+                            <span class="announcement-date" id="announcement-date"></span>
+                        </div>
+                        <p class="announcement-content" id="announcement-content">加载中...</p>
+                    </div>
+
+                    <div class="hero-buttons">
+                        <a href="#" class="btn btn-primary" data-target="projects">
+                            <i class="fas fa-rocket"></i> 查看项目
+                        </a>
+                        <a href="#" class="btn btn-outline" data-target="contact">
+                            <i class="fas fa-paper-plane"></i> 联系我
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== 关于我 ===== -->
+        <section id="about" class="section">
+            <div class="container">
+                <h2 class="section-title">
+                    <i class="fas fa-user"></i> 关于我
+                </h2>
+                <div class="about-grid">
+                    <div class="about-card">
+                        <div class="card-header">
+                            <i class="fas fa-cat"></i>
+                            <h3>自我介绍</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>大家好，这里是<strong>一只做梦的猫</strong>！🐱</p>
+                            <p>我是一名大一学生，热爱编程和开源文化。</p>
+                            <p>平时喜欢折腾各种技术，特别是 Android 开发。</p>
+                            <p>我自主开发了一些 Magisk 模块，希望能帮助到更多人。</p>
+                        </div>
+                    </div>
+                    <div class="about-card">
+                        <div class="card-header">
+                            <i class="fas fa-tools"></i>
+                            <h3>技能树</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="skill-tags">
+                                <span class="skill-tag"><i class="fab fa-android"></i> Android</span>
+                                <span class="skill-tag"><i class="fas fa-terminal"></i> Shell</span>
+                                <span class="skill-tag"><i class="fab fa-git-alt"></i> Git</span>
+                                <span class="skill-tag"><i class="fas fa-code"></i> C语言</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== 项目 ===== -->
+        <section id="projects" class="section">
+            <div class="container">
+                <h2 class="section-title">
+                    <i class="fas fa-code"></i> 我的项目
+                </h2>
+                <p class="section-desc">以下是我开发的一些开源项目</p>
+                <div class="projects-grid" id="projects-grid"></div>
+                <div class="github-cta">
+                    <p>想看更多？访问我的 GitHub！</p>
+                    <a href="https://github.com/tanxue0118" target="_blank" class="btn btn-github">
+                        <i class="fab fa-github"></i> 访问 GitHub
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== 联系我 ===== -->
+        <section id="contact" class="section">
+            <div class="container">
+                <h2 class="section-title">
+                    <i class="fas fa-envelope"></i> 联系我
+                </h2>
+                <p class="section-desc">欢迎通过以下方式联系我</p>
+                
+                <div class="contact-grid">
+                    <!-- QQ群 -->
+                    <div class="contact-card">
+                        <div class="contact-icon" style="background: linear-gradient(135deg, #12b7f5, #0099e5);">
+                            <i class="fab fa-qq"></i>
+                        </div>
+                        <h3>QQ群</h3>
+                        <p class="contact-info">点击加群交流</p>
+                        <a href="https://qm.qq.com/q/PmP59dqs4S" target="_blank" class="btn btn-sm">加入QQ群</a>
+                    </div>
+
+                    <!-- GitHub -->
+                    <div class="contact-card">
+                        <div class="contact-icon" style="background: linear-gradient(135deg, #333, #666);">
+                            <i class="fab fa-github"></i>
+                        </div>
+                        <h3>GitHub</h3>
+                        <p class="contact-info">开源项目</p>
+                        <a href="https://github.com/tanxue0118" target="_blank" class="btn btn-sm">访问主页</a>
+                    </div>
+
+                    <!-- 酷安 -->
+                    <div class="contact-card">
+                        <div class="contact-icon" style="background: linear-gradient(135deg, #11c26d, #00b050);">
+                            <span class="coolapk-icon">酷</span>
+                        </div>
+                        <h3>酷安</h3>
+                        <p class="contact-info">一只做梦的猫</p>
+                        <a href="http://www.coolapk.com/u/29109774" target="_blank" class="btn btn-sm">访问主页</a>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 回到顶部 -->
+    <button class="back-to-top" id="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- 雪花数量调节 -->
+    <div class="snow-control" id="snow-control">
+        <label><i class="fas fa-snowflake"></i> 雪花数量</label>
+        <div class="slider-container">
+            <input type="range" id="snow-count-slider" min="10" max="150" value="50">
+            <span id="snow-count-value">50</span>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer>
+        <p>Made with <i class="fas fa-heart" style="color: #ff6b6b;"></i> by 一只做梦的猫</p>
+        <p class="footer-copyright">&copy; 2024-2026 一只做梦的猫的小窝</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
