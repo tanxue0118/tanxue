@@ -72,7 +72,7 @@
                         <p class="eyebrow">Geek console</p>
                         <h2>当前状态</h2>
                     </div>
-                    <button class="micro-command" id="geek-command" type="button">./whoami</button>
+                    <button class="micro-command" id="geek-command" type="button" aria-controls="command-output">./whoami</button>
                 </div>
                 <div class="repo-rank">
                     <article class="rank-card primary-rank">
@@ -98,7 +98,10 @@
                     <span class="status-dot" aria-hidden="true"></span>
                     <span id="announcement-content">正在读取最新状态...</span>
                 </div>
-                <output class="command-output" id="command-output" aria-live="polite">ready: 选择一个项目开始探索</output>
+                <div class="command-output" id="command-output" role="status" aria-live="polite">
+                    <span class="prompt">guest@tanxue</span>
+                    <span class="command-text">ready: 点击 ./whoami 查看隐藏状态</span>
+                </div>
             </aside>
         </section>
 
