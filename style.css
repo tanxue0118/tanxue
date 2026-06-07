@@ -222,7 +222,7 @@ main {
 
 .metric-grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 10px;
     max-width: 620px;
     margin: 36px 0 0;
@@ -255,87 +255,152 @@ main {
     box-shadow: var(--shadow);
 }
 
-.profile-strip {
+.board-header {
     display: flex;
     align-items: center;
-    gap: 14px;
-    padding: 12px;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 8px 8px 18px;
+}
+
+.board-header h2 {
+    margin: 0;
+    font-size: 1.6rem;
+    letter-spacing: -0.04em;
+}
+
+.board-header .eyebrow {
+    margin-bottom: 6px;
+}
+
+.board-header a {
+    flex: 0 0 auto;
+    padding: 8px 12px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--accent-dark);
+    font-size: 0.86rem;
+    font-weight: 740;
+}
+
+.repo-rank {
+    display: grid;
+    gap: 10px;
+}
+
+.rank-card {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    column-gap: 14px;
+    align-items: center;
+    padding: 16px;
     border: 1px solid var(--line);
     border-radius: 18px;
     background: var(--surface);
 }
 
-.profile-mark {
-    width: 72px;
-    height: 72px;
-    display: grid;
-    place-items: center;
-    border-radius: 16px;
-    background: var(--ink);
-    color: #fff;
-    font-weight: 800;
-    letter-spacing: -0.04em;
-    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+.rank-card.primary-rank {
+    background:
+        radial-gradient(circle at 96% 0%, rgba(31, 111, 235, 0.12), transparent 12rem),
+        var(--surface);
+    border-color: rgba(31, 111, 235, 0.28);
 }
 
-.profile-name,
-.profile-role {
+.rank-number {
+    width: 38px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    background: var(--ink);
+    color: white;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    font-size: 0.76rem;
+    font-weight: 760;
+}
+
+.rank-card h3,
+.rank-card p {
     margin: 0;
 }
 
-.profile-name {
-    font-weight: 760;
+.rank-card h3 {
+    font-size: 1.05rem;
     letter-spacing: -0.02em;
 }
 
-.profile-role {
+.rank-card p {
     color: var(--muted);
-    font-size: 0.92rem;
+    font-size: 0.86rem;
 }
 
-.terminal-card {
-    margin-top: 14px;
-    overflow: hidden;
-    border-radius: 20px;
-    background: #08090a;
-    color: #e8f0e8;
-}
-
-.terminal-top {
-    display: flex;
-    gap: 7px;
-    padding: 14px 16px 0;
-}
-
-.terminal-top span {
-    width: 10px;
-    height: 10px;
-    border-radius: 999px;
-    background: #3f4348;
-}
-
-.terminal-top span:first-child {
-    background: #ff5f57;
-}
-
-.terminal-top span:nth-child(2) {
-    background: #febc2e;
-}
-
-.terminal-top span:nth-child(3) {
-    background: #28c840;
-}
-
-pre {
-    margin: 0;
-    padding: 18px;
-    white-space: pre-wrap;
-    font-size: 0.92rem;
-    line-height: 1.75;
-}
-
-code {
+.rank-card strong {
+    color: var(--accent-dark);
     font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    font-size: 0.9rem;
+}
+
+.repo-overview {
+    display: grid;
+    grid-template-columns: 0.78fr 1.22fr;
+    gap: 18px;
+    align-items: stretch;
+    padding-top: 34px;
+}
+
+.repo-overview-card {
+    padding: 28px;
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    background: var(--ink);
+    color: white;
+}
+
+.repo-overview-card .eyebrow {
+    color: #8ab4ff;
+}
+
+.repo-overview-card h2 {
+    margin: 0;
+    max-width: 430px;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    letter-spacing: -0.055em;
+    line-height: 0.98;
+}
+
+.repo-chip-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.repo-chip-grid a {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 112px;
+    padding: 18px;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.78);
+    transition: transform 0.18s ease, border-color 0.18s ease;
+}
+
+.repo-chip-grid a:hover {
+    transform: translateY(-2px);
+    border-color: var(--line-strong);
+}
+
+.repo-chip-grid strong {
+    letter-spacing: -0.02em;
+}
+
+.repo-chip-grid span {
+    color: var(--muted);
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    font-size: 0.82rem;
 }
 
 .announcement-line {
@@ -646,6 +711,10 @@ code {
         grid-template-columns: 1fr;
     }
 
+    .repo-overview {
+        grid-template-columns: 1fr;
+    }
+
     .contact-actions {
         justify-content: flex-start;
     }
@@ -673,7 +742,8 @@ code {
     }
 
     .metric-grid,
-    .project-row {
+    .project-row,
+    .repo-chip-grid {
         grid-template-columns: 1fr;
     }
 

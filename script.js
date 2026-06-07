@@ -25,16 +25,29 @@ function initAnnouncement() {
 
 function initGitHubEnhancement() {
     var repoStars = document.querySelectorAll('[data-stars-for]');
-    if (!repoStars.length) return;
+    var followerEl = document.querySelector('[data-github-followers]');
+    var totalStarsEl = document.querySelector('[data-total-stars]');
+    if (!repoStars.length && !followerEl && !totalStarsEl) return;
 
-    fetch('https://api.github.com/users/tanxue0118/repos?per_page=100&sort=updated')
-        .then(function(response) {
-            if (!response.ok) {
-                throw new Error('GitHub request failed');
+    Promise.all([
+        fetch('https://api.github.com/users/tanxue0118').then(assertOk).then(function(response) { return response.json(); }),
+        fetch('https://api.github.com/users/tanxue0118/repos?per_page=100&sort=updated').then(assertOk).then(function(response) { return response.json(); })
+    ])
+        .then(function(results) {
+            var user = results[0];
+            var repos = results[1];
+
+            if (followerEl && typeof user.followers === 'number') {
+                followerEl.textContent = user.followers;
             }
-            return response.json();
-        })
-        .then(function(repos) {
+
+            if (totalStarsEl) {
+                var totalStars = repos.reduce(function(sum, repo) {
+                    return sum + repo.stargazers_count;
+                }, 0);
+                totalStarsEl.textContent = totalStars;
+            }
+
             repoStars.forEach(function(el) {
                 var repoName = el.getAttribute('data-stars-for');
                 var repo = repos.find(function(item) {
@@ -48,6 +61,13 @@ function initGitHubEnhancement() {
         .catch(function() {
             // Static fallback values in HTML remain visible.
         });
+}
+
+function assertOk(response) {
+    if (!response.ok) {
+        throw new Error('GitHub request failed');
+    }
+    return response;
 }
 
 function initBackToTop() {
