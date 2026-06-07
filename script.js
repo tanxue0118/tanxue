@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     initAnnouncement();
     initGitHubEnhancement();
+    initGeekCommand();
     initBackToTop();
 });
 
@@ -68,6 +69,25 @@ function assertOk(response) {
         throw new Error('GitHub request failed');
     }
     return response;
+}
+
+function initGeekCommand() {
+    var button = document.getElementById('geek-command');
+    var output = document.getElementById('command-output');
+    if (!button || !output) return;
+
+    var lines = [
+        'user: tanxue0118 | role: Android / Magisk tinkerer',
+        'focus: ProcessKill, charge-turbo, clean system experience',
+        'stack: shell + c + css + a little curiosity',
+        'note: build small, test often, keep it useful'
+    ];
+    var index = 0;
+
+    button.addEventListener('click', function() {
+        output.textContent = lines[index];
+        index = (index + 1) % lines.length;
+    });
 }
 
 function initBackToTop() {

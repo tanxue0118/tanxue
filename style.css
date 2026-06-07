@@ -172,13 +172,13 @@ main {
 .contact-band h2 {
     margin: 0;
     font-weight: 760;
-    letter-spacing: -0.035em;
+    letter-spacing: 0;
     line-height: 1.03;
 }
 
 .hero-copy h1 {
     max-width: 760px;
-    font-size: clamp(2.9rem, 7vw, 5.5rem);
+    font-size: clamp(2.6rem, 5.4vw, 4.6rem);
 }
 
 .hero-lede {
@@ -194,6 +194,29 @@ main {
     flex-wrap: wrap;
     gap: 12px;
     margin-top: 30px;
+}
+
+.code-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 18px;
+}
+
+.code-strip span {
+    padding: 6px 10px;
+    border: 1px solid rgba(23, 21, 18, 0.09);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.72);
+    color: var(--muted);
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    font-size: 0.78rem;
+}
+
+.code-strip span::before {
+    content: "#";
+    color: var(--accent);
+    margin-right: 2px;
 }
 
 .button {
@@ -250,11 +273,29 @@ main {
 }
 
 .hero-panel {
+    position: relative;
+    overflow: hidden;
     padding: 20px;
     border: 1px solid var(--line);
     border-radius: 26px;
     background: rgba(255, 255, 255, 0.82);
     box-shadow: 0 22px 70px rgba(26, 24, 20, 0.1);
+}
+
+.hero-panel::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+        linear-gradient(90deg, transparent 0 48%, rgba(47, 111, 237, 0.08) 48% 49%, transparent 49%),
+        linear-gradient(180deg, transparent 0 68%, rgba(34, 197, 94, 0.08) 68% 69%, transparent 69%);
+    opacity: 0.42;
+}
+
+.hero-panel > * {
+    position: relative;
+    z-index: 1;
 }
 
 .board-header {
@@ -275,7 +316,8 @@ main {
     margin-bottom: 6px;
 }
 
-.board-header a {
+.board-header a,
+.micro-command {
     flex: 0 0 auto;
     padding: 8px 12px;
     border: 1px solid var(--line);
@@ -284,6 +326,15 @@ main {
     color: var(--accent-dark);
     font-size: 0.86rem;
     font-weight: 740;
+}
+
+.micro-command {
+    cursor: pointer;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+}
+
+.micro-command:hover {
+    border-color: var(--accent);
 }
 
 .repo-rank {
@@ -344,6 +395,12 @@ main {
     font-size: 0.9rem;
 }
 
+.rank-card h3::after {
+    content: "_";
+    color: #22c55e;
+    margin-left: 3px;
+}
+
 .repo-overview {
     display: grid;
     grid-template-columns: 0.78fr 1.22fr;
@@ -402,6 +459,13 @@ main {
     border-color: var(--line-strong);
 }
 
+.repo-chip-grid a:nth-child(1),
+.repo-chip-grid a:nth-child(2) {
+    background:
+        linear-gradient(135deg, rgba(47, 111, 237, 0.06), rgba(255, 255, 255, 0.84)),
+        #fffdf8;
+}
+
 .repo-chip-grid strong {
     letter-spacing: -0.02em;
 }
@@ -423,6 +487,18 @@ main {
     background: var(--surface-soft);
     color: var(--muted);
     font-size: 0.92rem;
+}
+
+.command-output {
+    display: block;
+    margin-top: 10px;
+    padding: 12px 14px;
+    border: 1px dashed rgba(23, 21, 18, 0.18);
+    border-radius: 14px;
+    background: rgba(23, 21, 18, 0.035);
+    color: #3e3a33;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    font-size: 0.82rem;
 }
 
 .status-dot {
@@ -767,7 +843,8 @@ main {
     }
 
     .hero-actions,
-    .contact-actions {
+    .contact-actions,
+    .code-strip {
         flex-direction: column;
     }
 
