@@ -74,6 +74,7 @@ function assertOk(response) {
 function initGeekCommand() {
     var button = document.getElementById('geek-command');
     var output = document.getElementById('command-output');
+    var brandMark = document.getElementById('brand-mark');
     if (!button || !output) return;
 
     var sessions = [
@@ -104,7 +105,7 @@ function initGeekCommand() {
     ];
     var index = 0;
 
-    button.addEventListener('click', function() {
+    function runCommand() {
         var session = sessions[index];
         output.classList.remove('is-active');
         void output.offsetWidth;
@@ -122,7 +123,12 @@ function initGeekCommand() {
         window.setTimeout(function() {
             button.classList.remove('is-running');
         }, 700);
-    });
+    }
+
+    button.addEventListener('click', runCommand);
+    if (brandMark) {
+        brandMark.addEventListener('dblclick', runCommand);
+    }
 }
 
 function escapeHtml(value) {
