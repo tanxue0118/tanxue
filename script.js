@@ -1,11 +1,4 @@
-// 等待页面加载
-window.onload = function() {
-    // 隐藏加载动画
-    setTimeout(function() {
-        document.getElementById('loader').classList.add('hidden');
-    }, 1500);
-
-    // 初始化功能
+document.addEventListener('DOMContentLoaded', function() {
     initSnowEffect();
     initSnowControl();
     initAnnouncement();
@@ -14,12 +7,26 @@ window.onload = function() {
     initCountAnimation();
     initProjects();
     initBackToTop();
-};
+
+    window.setTimeout(hideLoader, 350);
+});
+
+function hideLoader() {
+    var loader = document.getElementById('loader');
+    if (loader) {
+        loader.classList.add('hidden');
+    }
+}
 
 // ===== 雪花效果 =====
 var snowflakes = [];
 var canvas, ctx;
-var snowCount = parseInt(localStorage.getItem('snowCount')) || 50;
+var validSections = ['home', 'about', 'projects', 'contact'];
+var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var isCompactViewport = window.matchMedia('(max-width: 768px)').matches;
+var savedSnowCount = parseInt(localStorage.getItem('snowCount'), 10);
+var snowCount = prefersReducedMotion ? 0 : (savedSnowCount || (isCompactViewport ? 24 : 50));
+var animationFrameId = null;
 
 function initSnowEffect() {
     canvas = document.getElementById('snow-canvas');
@@ -32,6 +39,14 @@ function initSnowEffect() {
 
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden && animationFrameId !== null) {
+            cancelAnimationFrame(animationFrameId);
+            animationFrameId = null;
+        } else if (!document.hidden && !prefersReducedMotion && animationFrameId === null) {
+            animate();
+        }
+    });
 
     createSnowflakes(snowCount);
     animate();
@@ -52,6 +67,10 @@ function createSnowflakes(count) {
 }
 
 function animate() {
+    if (prefersReducedMotion || snowCount === 0) {
+        return;
+    }
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     for (var i = 0; i < snowflakes.length; i++) {
         var s = snowflakes[i];
@@ -70,7 +89,7 @@ function animate() {
         ctx.fillStyle = 'rgba(255, 255, 255, ' + s.opacity + ')';
         ctx.fill();
     }
-    requestAnimationFrame(animate);
+    animationFrameId = requestAnimationFrame(animate);
 }
 
 // ===== 公告栏 =====
@@ -80,7 +99,12 @@ function initAnnouncement() {
     var announcementEl = document.getElementById('announcement');
 
     fetch('announcement.json')
-        .then(function(response) { return response.json(); })
+        .then(function(response) {
+            if (!response.ok) {
+                throw new Error('Announcement request failed');
+            }
+            return response.json();
+        })
         .then(function(data) {
             dateEl.textContent = data.date || '';
             contentEl.textContent = data.content || '暂无公告';
@@ -98,51 +122,92 @@ function initNavigation() {
     var hamburger = document.getElementById('hamburger');
     var navLinksContainer = document.getElementById('nav-links');
 
-    window.navigateTo = function(target) {
+    function closeMobileNav() {
         hamburger.classList.remove('active');
         navLinksContainer.classList.remove('active');
+        hamburger.setAttribute('aria-expanded', 'false');
+        hamburger.setAttribute('aria-label', '打开导航菜单');
         document.body.style.overflow = '';
-        
-        showSection(target);
-        
-        var allLinks = document.querySelectorAll('.nav-link');
-        allLinks.forEach(function(link) {
-            link.classList.remove('active');
-            if (link.getAttribute('data-target') === target) {
-                link.classList.add('active');
+    }
+
+    function updateActiveNav(target) {
+        document.querySelectorAll('.nav-link').forEach(function(link) {
+            var isActive = link.getAttribute('data-target') === target;
+            link.classList.toggle('active', isActive);
+            if (isActive) {
+                link.setAttribute('aria-current', 'page');
+            } else {
+                link.removeAttribute('aria-current');
             }
         });
+    }
+
+    window.navigateTo = function(target) {
+        if (validSections.indexOf(target) === -1) {
+            target = 'home';
+        }
+
+        closeMobileNav();
+        
+        showSection(target);
+        updateActiveNav(target);
+
+        if (window.location.hash !== '#' + target) {
+            history.pushState(null, '', '#' + target);
+        }
     };
 
     hamburger.addEventListener('click', function() {
         var isActive = this.classList.toggle('active');
         navLinksContainer.classList.toggle('active');
+        this.setAttribute('aria-expanded', isActive ? 'true' : 'false');
+        this.setAttribute('aria-label', isActive ? '关闭导航菜单' : '打开导航菜单');
         document.body.style.overflow = isActive ? 'hidden' : '';
     });
 
-    document.querySelectorAll('.btn[data-target]').forEach(function(btn) {
-        btn.addEventListener('click', function(e) {
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && navLinksContainer.classList.contains('active')) {
+            closeMobileNav();
+            hamburger.focus();
+        }
+    });
+
+    document.querySelectorAll('[data-target]').forEach(function(link) {
+        link.addEventListener('click', function(e) {
             e.preventDefault();
             navigateTo(this.getAttribute('data-target'));
         });
     });
+
+    window.addEventListener('hashchange', function() {
+        var target = window.location.hash.replace('#', '') || 'home';
+        if (validSections.indexOf(target) === -1) {
+            target = 'home';
+        }
+        closeMobileNav();
+        showSection(target);
+        updateActiveNav(target);
+    });
+
+    var initialTarget = window.location.hash.replace('#', '') || 'home';
+    if (validSections.indexOf(initialTarget) === -1) {
+        initialTarget = 'home';
+    }
+    showSection(initialTarget);
+    updateActiveNav(initialTarget);
 }
 
 function showSection(id) {
-    document.querySelectorAll('.section').forEach(function(section) {
-        section.classList.remove('active');
-    });
-    setTimeout(function() {
-        document.getElementById(id).classList.add('active');
-    }, 50);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-}
+    if (validSections.indexOf(id) === -1) {
+        id = 'home';
+    }
 
-function updateActiveNav(activeLink) {
-    document.querySelectorAll('.nav-link').forEach(function(link) {
-        link.classList.remove('active');
+    document.querySelectorAll('.section').forEach(function(section) {
+        var isActive = section.id === id;
+        section.classList.toggle('active', isActive);
+        section.setAttribute('aria-hidden', isActive ? 'false' : 'true');
     });
-    if (activeLink) activeLink.classList.add('active');
+    window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
 }
 
 // ===== 打字效果 =====
@@ -217,6 +282,10 @@ function initSnowControl() {
         valueDisplay.textContent = this.value;
         localStorage.setItem('snowCount', snowCount);
         createSnowflakes(snowCount);
+
+        if (!prefersReducedMotion && animationFrameId === null) {
+            animate();
+        }
     });
 }
 
@@ -225,25 +294,57 @@ function initProjects() {
     var projects = [
         {
             title: 'ProcessKill',
-            icon: 'fas fa-skull-crossbones',
-            description: '一个实用的进程管理工具，帮助用户管理和终止进程。',
-            tags: ['Tool', 'Process'],
+            icon: '⚙',
+            description: '一个Magisk模块，杀死无用进程。',
+            tags: ['Magisk', 'Android'],
             link: 'https://github.com/tanxue0118/ProcessKill',
-            stars: 8
+            stars: 9
         },
         {
             title: 'Processkill-Donation',
-            icon: 'fas fa-hand-holding-heart',
-            description: 'ProcessKill 捐赠支持版本，包含更多高级功能。',
-            tags: ['Tool', 'Donation'],
+            icon: '♥',
+            description: '一个收费的Magisk模块，让你的后台更清爽，保后台能力增强。',
+            tags: ['Magisk', 'Android'],
             link: 'https://github.com/tanxue0118/Processkill-Donation',
             stars: 0
         },
         {
+            title: 'charge-turbo',
+            icon: '⚡',
+            description: '基于诺鸡鸭大佬的充电加速模块而做。',
+            tags: ['Magisk', 'C'],
+            link: 'https://github.com/tanxue0118/charge-turbo',
+            stars: 3
+        },
+        {
+            title: 'Ghost',
+            icon: '?',
+            description: '一个带有一点点恐怖点填问卷游戏。',
+            tags: ['HTML', 'Game'],
+            link: 'https://github.com/tanxue0118/Ghost',
+            stars: 0
+        },
+        {
+            title: 'andrej-karpathy-skills-CN',
+            icon: '文',
+            description: 'Andrej Karpathy 技能课程中文翻译。',
+            tags: ['Translation', 'AI'],
+            link: 'https://github.com/tanxue0118/andrej-karpathy-skills-CN',
+            stars: 0
+        },
+        {
+            title: 'xinli-test',
+            icon: 'Ψ',
+            description: '一个收集了许多心理测试网站。',
+            tags: ['JavaScript', 'Web'],
+            link: 'https://github.com/tanxue0118/xinli-test',
+            stars: 0
+        },
+        {
             title: 'tanxue',
-            icon: 'fas fa-globe',
-            description: '我的个人博客网站，使用原生 HTML/CSS/JS 构建。',
-            tags: ['HTML', 'CSS', 'JavaScript'],
+            icon: '站',
+            description: '一个个人博客。',
+            tags: ['HTML', 'CSS'],
             link: 'https://github.com/tanxue0118/tanxue',
             stars: 0
         }
@@ -251,18 +352,19 @@ function initProjects() {
 
     var grid = document.getElementById('projects-grid');
     grid.innerHTML = projects.map(function(p) {
-        var starsHtml = p.stars > 0 ? '<span class="project-stars"><i class="fas fa-star"></i> ' + p.stars + '</span>' : '';
-        return '<div class="project-card">' +
+        var starsHtml = p.stars > 0 ? '<span class="project-stars">★ ' + p.stars + '</span>' : '';
+        var featuredClass = p.stars >= 3 ? ' featured' : '';
+        return '<article class="project-card' + featuredClass + '">' +
             '<div class="project-header">' +
-                '<div class="project-icon"><i class="' + p.icon + '"></i></div>' +
-                '<div class="project-info"><h3>' + p.title + '</h3><span>开源项目 ' + starsHtml + '</span></div>' +
+                '<div class="project-icon" aria-hidden="true"><span class="icon-symbol">' + p.icon + '</span></div>' +
+                '<div class="project-info"><h3>' + p.title + '</h3><span>' + (featuredClass ? '主推项目 ' : '开源项目 ') + starsHtml + '</span></div>' +
             '</div>' +
             '<div class="project-body">' +
                 '<p>' + p.description + '</p>' +
                 '<div class="project-tags">' + p.tags.map(function(t) { return '<span class="project-tag">' + t + '</span>'; }).join('') + '</div>' +
-                '<a href="' + p.link + '" target="_blank" class="project-link">查看项目 <i class="fas fa-arrow-right"></i></a>' +
+                '<a href="' + p.link + '" target="_blank" rel="noopener noreferrer" class="project-link">查看项目 <span aria-hidden="true">→</span></a>' +
             '</div>' +
-        '</div>';
+        '</article>';
     }).join('');
 }
 

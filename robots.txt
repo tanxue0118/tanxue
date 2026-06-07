@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://tanxue0118.github.io/tanxue/sitemap.xml

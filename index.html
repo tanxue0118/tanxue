@@ -4,9 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="一只做梦的猫的小窝，分享 Android、Magisk 模块和开源项目。">
+    <meta name="theme-color" content="#0a0a1a">
+    <meta property="og:title" content="一只做梦的猫的小窝">
+    <meta property="og:description" content="分享 Android、Magisk 模块和开源项目。">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="avatar.jpg">
+    <link rel="canonical" href="https://tanxue0118.github.io/tanxue/">
     <title>一只做梦的猫的小窝</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="preload" href="avatar-320.webp" as="image" type="image/webp" fetchpriority="high">
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -38,7 +44,7 @@
     <!-- 导航栏 -->
     <nav id="navbar">
         <div class="nav-container">
-            <a href="#" class="logo" id="logo-link" onclick="event.preventDefault(); navigateTo('home');">
+            <a href="#home" class="logo" id="logo-link" data-target="home">
                 <svg class="cat-icon" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
                     <path d="M30 45 L18 12 L48 35 Z" fill="#6c5ce7"/>
                     <path d="M90 45 L102 12 L72 35 Z" fill="#6c5ce7"/>
@@ -52,20 +58,20 @@
                 <span>一只做梦的猫</span>
             </a>
             <div class="nav-links" id="nav-links">
-                <a href="#" class="nav-link active" data-target="home" onclick="event.preventDefault(); navigateTo('home');">
-                    <i class="fas fa-home"></i><span>首页</span>
+                <a href="#home" class="nav-link active" data-target="home" aria-current="page">
+                    <span class="icon-symbol" aria-hidden="true">⌂</span><span>首页</span>
                 </a>
-                <a href="#" class="nav-link" data-target="about" onclick="event.preventDefault(); navigateTo('about');">
-                    <i class="fas fa-user"></i><span>关于我</span>
+                <a href="#about" class="nav-link" data-target="about">
+                    <span class="icon-symbol" aria-hidden="true">人</span><span>关于我</span>
                 </a>
-                <a href="#" class="nav-link" data-target="projects" onclick="event.preventDefault(); navigateTo('projects');">
-                    <i class="fas fa-code"></i><span>项目</span>
+                <a href="#projects" class="nav-link" data-target="projects">
+                    <span class="icon-symbol" aria-hidden="true">{ }</span><span>项目</span>
                 </a>
-                <a href="#" class="nav-link" data-target="contact" onclick="event.preventDefault(); navigateTo('contact');">
-                    <i class="fas fa-envelope"></i><span>联系我</span>
+                <a href="#contact" class="nav-link" data-target="contact">
+                    <span class="icon-symbol" aria-hidden="true">@</span><span>联系我</span>
                 </a>
             </div>
-            <button class="hamburger" id="hamburger">
+            <button class="hamburger" id="hamburger" type="button" aria-label="打开导航菜单" aria-expanded="false" aria-controls="nav-links">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -80,7 +86,10 @@
             <div class="hero">
                 <div class="hero-content">
                     <div class="hero-avatar">
-                        <img src="avatar.jpg" alt="头像" id="avatar-img">
+                        <picture>
+                            <source srcset="avatar-320.webp" type="image/webp">
+                            <img src="avatar.jpg" alt="一只做梦的猫头像" id="avatar-img" width="140" height="140" fetchpriority="high" decoding="async">
+                        </picture>
                         <div class="avatar-ring"></div>
                     </div>
                     <h1 class="hero-title">
@@ -97,7 +106,7 @@
                             <span class="stat-label">年开发经验</span>
                         </div>
                         <div class="stat-item">
-                            <span class="stat-number" data-target="3">0</span>
+                            <span class="stat-number" data-target="10">0</span>
                             <span class="stat-label">开源项目</span>
                         </div>
                         <div class="stat-item">
@@ -108,7 +117,7 @@
                     <!-- 今日公告 -->
                     <div class="announcement" id="announcement">
                         <div class="announcement-header">
-                            <i class="fas fa-bullhorn"></i>
+                            <span class="icon-symbol" aria-hidden="true">!</span>
                             <span class="announcement-label">今日公告</span>
                             <span class="announcement-date" id="announcement-date"></span>
                         </div>
@@ -116,11 +125,11 @@
                     </div>
 
                     <div class="hero-buttons">
-                        <a href="#" class="btn btn-primary" onclick="event.preventDefault(); navigateTo('projects');">
-                            <i class="fas fa-rocket"></i> 查看项目
+                        <a href="#projects" class="btn btn-primary" data-target="projects">
+                            <span class="icon-symbol" aria-hidden="true">↗</span> 查看项目
                         </a>
-                        <a href="#" class="btn btn-outline" onclick="event.preventDefault(); navigateTo('contact');">
-                            <i class="fas fa-paper-plane"></i> 联系我
+                        <a href="#contact" class="btn btn-outline" data-target="contact">
+                            <span class="icon-symbol" aria-hidden="true">@</span> 联系我
                         </a>
                     </div>
                 </div>
@@ -131,12 +140,12 @@
         <section id="about" class="section">
             <div class="container">
                 <h2 class="section-title">
-                    <i class="fas fa-user"></i> 关于我
+                    <span class="icon-symbol" aria-hidden="true">人</span> 关于我
                 </h2>
                 <div class="about-grid">
                     <div class="about-card">
                         <div class="card-header">
-                            <i class="fas fa-cat"></i>
+                            <span class="icon-symbol" aria-hidden="true">梦</span>
                             <h3>自我介绍</h3>
                         </div>
                         <div class="card-body">
@@ -148,15 +157,15 @@
                     </div>
                     <div class="about-card">
                         <div class="card-header">
-                            <i class="fas fa-tools"></i>
+                            <span class="icon-symbol" aria-hidden="true">⌘</span>
                             <h3>技能树</h3>
                         </div>
                         <div class="card-body">
                             <div class="skill-tags">
-                                <span class="skill-tag"><i class="fab fa-android"></i> Android</span>
-                                <span class="skill-tag"><i class="fas fa-terminal"></i> Shell</span>
-                                <span class="skill-tag"><i class="fab fa-git-alt"></i> Git</span>
-                                <span class="skill-tag"><i class="fas fa-code"></i> C语言</span>
+                                <span class="skill-tag"><span class="icon-symbol" aria-hidden="true">A</span> Android</span>
+                                <span class="skill-tag"><span class="icon-symbol" aria-hidden="true">$</span> Shell</span>
+                                <span class="skill-tag"><span class="icon-symbol" aria-hidden="true">G</span> Git</span>
+                                <span class="skill-tag"><span class="icon-symbol" aria-hidden="true">C</span> C语言</span>
                             </div>
                         </div>
                     </div>
@@ -168,14 +177,99 @@
         <section id="projects" class="section">
             <div class="container">
                 <h2 class="section-title">
-                    <i class="fas fa-code"></i> 我的项目
+                    <span class="icon-symbol" aria-hidden="true">{ }</span> 我的项目
                 </h2>
                 <p class="section-desc">以下是我开发的一些开源项目</p>
-                <div class="projects-grid" id="projects-grid"></div>
+                <div class="projects-grid" id="projects-grid">
+                    <article class="project-card featured">
+                        <div class="project-header">
+                            <div class="project-icon" aria-hidden="true"><span class="icon-symbol">⚙</span></div>
+                            <div class="project-info">
+                                <h3>ProcessKill</h3>
+                                <span>主推项目 <span class="project-stars">★ 9</span></span>
+                            </div>
+                        </div>
+                        <div class="project-body">
+                            <p>一个 Magisk 模块，用来清理无用进程。</p>
+                            <div class="project-tags"><span class="project-tag">Magisk</span><span class="project-tag">Android</span></div>
+                            <a href="https://github.com/tanxue0118/ProcessKill" target="_blank" rel="noopener noreferrer" class="project-link">查看项目 <span aria-hidden="true">→</span></a>
+                        </div>
+                    </article>
+                    <article class="project-card featured">
+                        <div class="project-header">
+                            <div class="project-icon" aria-hidden="true"><span class="icon-symbol">⚡</span></div>
+                            <div class="project-info">
+                                <h3>charge-turbo</h3>
+                                <span>主推项目 <span class="project-stars">★ 3</span></span>
+                            </div>
+                        </div>
+                        <div class="project-body">
+                            <p>基于充电加速模块改造的 Android / Magisk 项目。</p>
+                            <div class="project-tags"><span class="project-tag">Magisk</span><span class="project-tag">C</span></div>
+                            <a href="https://github.com/tanxue0118/charge-turbo" target="_blank" rel="noopener noreferrer" class="project-link">查看项目 <span aria-hidden="true">→</span></a>
+                        </div>
+                    </article>
+                    <article class="project-card">
+                        <div class="project-header">
+                            <div class="project-icon" aria-hidden="true"><span class="icon-symbol">♥</span></div>
+                            <div class="project-info">
+                                <h3>Processkill-Donation</h3>
+                                <span>开源项目</span>
+                            </div>
+                        </div>
+                        <div class="project-body">
+                            <p>一个收费的 Magisk 模块，让后台更清爽，保后台能力增强。</p>
+                            <div class="project-tags"><span class="project-tag">Magisk</span><span class="project-tag">Android</span></div>
+                            <a href="https://github.com/tanxue0118/Processkill-Donation" target="_blank" rel="noopener noreferrer" class="project-link">查看项目 <span aria-hidden="true">→</span></a>
+                        </div>
+                    </article>
+                    <article class="project-card">
+                        <div class="project-header">
+                            <div class="project-icon" aria-hidden="true"><span class="icon-symbol">?</span></div>
+                            <div class="project-info">
+                                <h3>Ghost</h3>
+                                <span>开源项目</span>
+                            </div>
+                        </div>
+                        <div class="project-body">
+                            <p>一个带有一点点恐怖氛围的问卷小游戏。</p>
+                            <div class="project-tags"><span class="project-tag">HTML</span><span class="project-tag">Game</span></div>
+                            <a href="https://github.com/tanxue0118/Ghost" target="_blank" rel="noopener noreferrer" class="project-link">查看项目 <span aria-hidden="true">→</span></a>
+                        </div>
+                    </article>
+                    <article class="project-card">
+                        <div class="project-header">
+                            <div class="project-icon" aria-hidden="true"><span class="icon-symbol">文</span></div>
+                            <div class="project-info">
+                                <h3>andrej-karpathy-skills-CN</h3>
+                                <span>开源项目</span>
+                            </div>
+                        </div>
+                        <div class="project-body">
+                            <p>Andrej Karpathy 技能课程中文翻译。</p>
+                            <div class="project-tags"><span class="project-tag">Translation</span><span class="project-tag">AI</span></div>
+                            <a href="https://github.com/tanxue0118/andrej-karpathy-skills-CN" target="_blank" rel="noopener noreferrer" class="project-link">查看项目 <span aria-hidden="true">→</span></a>
+                        </div>
+                    </article>
+                    <article class="project-card">
+                        <div class="project-header">
+                            <div class="project-icon" aria-hidden="true"><span class="icon-symbol">Ψ</span></div>
+                            <div class="project-info">
+                                <h3>xinli-test</h3>
+                                <span>开源项目</span>
+                            </div>
+                        </div>
+                        <div class="project-body">
+                            <p>一个收集了许多心理测试入口的网站。</p>
+                            <div class="project-tags"><span class="project-tag">JavaScript</span><span class="project-tag">Web</span></div>
+                            <a href="https://github.com/tanxue0118/xinli-test" target="_blank" rel="noopener noreferrer" class="project-link">查看项目 <span aria-hidden="true">→</span></a>
+                        </div>
+                    </article>
+                </div>
                 <div class="github-cta">
                     <p>想看更多？访问我的 GitHub！</p>
-                    <a href="https://github.com/tanxue0118" target="_blank" class="btn btn-github">
-                        <i class="fab fa-github"></i> 访问 GitHub
+                    <a href="https://github.com/tanxue0118" target="_blank" rel="noopener noreferrer" class="btn btn-github">
+                        <span class="icon-symbol" aria-hidden="true">GH</span> 访问 GitHub
                     </a>
                 </div>
             </div>
@@ -185,7 +279,7 @@
         <section id="contact" class="section">
             <div class="container">
                 <h2 class="section-title">
-                    <i class="fas fa-envelope"></i> 联系我
+                    <span class="icon-symbol" aria-hidden="true">@</span> 联系我
                 </h2>
                 <p class="section-desc">欢迎通过以下方式联系我</p>
                 
@@ -193,21 +287,21 @@
                     <!-- QQ群 -->
                     <div class="contact-card">
                         <div class="contact-icon" style="background: linear-gradient(135deg, #12b7f5, #0099e5);">
-                            <i class="fab fa-qq"></i>
+                            <span class="icon-symbol" aria-hidden="true">QQ</span>
                         </div>
                         <h3>QQ群</h3>
                         <p class="contact-info">点击加群交流</p>
-                        <a href="https://qm.qq.com/q/PmP59dqs4S" target="_blank" class="btn btn-sm">加入QQ群</a>
+                        <a href="https://qm.qq.com/q/PmP59dqs4S" target="_blank" rel="noopener noreferrer" class="btn btn-sm">加入QQ群</a>
                     </div>
 
                     <!-- GitHub -->
                     <div class="contact-card">
                         <div class="contact-icon" style="background: linear-gradient(135deg, #333, #666);">
-                            <i class="fab fa-github"></i>
+                            <span class="icon-symbol" aria-hidden="true">GH</span>
                         </div>
                         <h3>GitHub</h3>
                         <p class="contact-info">开源项目</p>
-                        <a href="https://github.com/tanxue0118" target="_blank" class="btn btn-sm">访问主页</a>
+                        <a href="https://github.com/tanxue0118" target="_blank" rel="noopener noreferrer" class="btn btn-sm">访问主页</a>
                     </div>
 
                     <!-- 酷安 -->
@@ -217,7 +311,7 @@
                         </div>
                         <h3>酷安</h3>
                         <p class="contact-info">一只做梦的猫</p>
-                        <a href="http://www.coolapk.com/u/29109774" target="_blank" class="btn btn-sm">访问主页</a>
+                        <a href="http://www.coolapk.com/u/29109774" target="_blank" rel="noopener noreferrer" class="btn btn-sm">访问主页</a>
                     </div>
 
                 </div>
@@ -226,13 +320,13 @@
     </main>
 
     <!-- 回到顶部 -->
-    <button class="back-to-top" id="back-to-top">
-        <i class="fas fa-arrow-up"></i>
+    <button class="back-to-top" id="back-to-top" type="button" aria-label="回到顶部">
+        <span aria-hidden="true">↑</span>
     </button>
 
     <!-- 雪花数量调节 -->
     <div class="snow-control" id="snow-control">
-        <label><i class="fas fa-snowflake"></i> 雪花数量</label>
+        <label for="snow-count-slider"><span class="icon-symbol" aria-hidden="true">*</span> 雪花数量</label>
         <div class="slider-container">
             <input type="range" id="snow-count-slider" min="10" max="150" value="50">
             <span id="snow-count-value">50</span>
@@ -241,10 +335,10 @@
 
     <!-- 页脚 -->
     <footer>
-        <p>Made with <i class="fas fa-heart" style="color: #ff6b6b;"></i> by 一只做梦的猫</p>
+        <p>Made with <span class="footer-heart" aria-hidden="true">♥</span> by 一只做梦的猫</p>
         <p class="footer-copyright">&copy; 2024-2026 一只做梦的猫的小窝</p>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 </body>
 </html>
