@@ -819,27 +819,6 @@ main {
     color: white;
 }
 
-.lab-note {
-    display: grid;
-    gap: 8px;
-    max-width: 760px;
-    margin: 8px auto 0;
-    padding: 20px 22px;
-    border: 1px dashed rgba(23, 21, 18, 0.18);
-    border-radius: 22px;
-    background: rgba(255, 255, 255, 0.58);
-    text-align: center;
-}
-
-.lab-note .eyebrow {
-    margin: 0;
-}
-
-.lab-note p {
-    margin: 0;
-    color: var(--muted);
-}
-
 .contact-band .eyebrow {
     color: #8ab4ff;
 }
