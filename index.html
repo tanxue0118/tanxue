@@ -17,15 +17,16 @@
 </head>
 <body>
     <a class="skip-link" href="#work">跳到项目内容</a>
+    <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
     <header class="site-header">
         <a class="brand" href="#top" aria-label="回到首页">
             <span class="brand-mark" id="brand-mark" aria-hidden="true">TX</span>
             <span class="brand-text">tanxue0118</span>
         </a>
         <nav class="site-nav" aria-label="主导航">
-            <a href="#work">项目</a>
-            <a href="#stack">技术</a>
-            <a href="#contact">联系</a>
+            <a href="#work" data-nav-target="work">项目</a>
+            <a href="#stack" data-nav-target="stack">技术</a>
+            <a href="#contact" data-nav-target="contact">联系</a>
         </nav>
         <a class="nav-action" href="https://github.com/tanxue0118" target="_blank" rel="noopener noreferrer">GitHub</a>
     </header>
@@ -113,7 +114,7 @@
             </aside>
         </section>
 
-        <section class="section-shell repo-overview" aria-label="GitHub 仓库总览">
+        <section class="section-shell repo-overview" id="repos" aria-label="GitHub 仓库总览">
             <div class="repo-overview-card">
                 <p class="eyebrow">Repository map</p>
                 <h2>公开项目很多，但主线很清楚。</h2>
@@ -137,7 +138,7 @@
             </div>
 
             <div class="featured-grid">
-                <article class="project-card project-card-large">
+                <article class="project-card project-card-large" data-project-card>
                     <div class="project-meta">
                         <span>Android / Magisk</span>
                         <strong data-stars-for="ProcessKill">★ 12</strong>
@@ -148,7 +149,7 @@
                     <a href="https://github.com/tanxue0118/ProcessKill" target="_blank" rel="noopener noreferrer">查看仓库 <span aria-hidden="true">→</span></a>
                 </article>
 
-                <article class="project-card project-card-large accent-green">
+                <article class="project-card project-card-large accent-green" data-project-card>
                     <div class="project-meta">
                         <span>Charging / System</span>
                         <strong data-stars-for="charge-turbo">★ 10</strong>
@@ -194,6 +195,7 @@
                     <a href="https://github.com/tanxue0118" target="_blank" rel="noopener noreferrer">更多</a>
                 </article>
             </div>
+            <p class="data-note">GitHub followers 和 stars 会在浏览器里尝试自动刷新；如果 API 被限流，页面会保留静态兜底数据。</p>
         </section>
 
         <section class="section-shell split-section" id="stack">

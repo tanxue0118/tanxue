@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initAnnouncement();
     initGitHubEnhancement();
     initGeekCommand();
+    initNavigationPolish();
     initBackToTop();
 });
 
@@ -141,6 +142,48 @@ function escapeHtml(value) {
             "'": '&#39;'
         }[char];
     });
+}
+
+function initNavigationPolish() {
+    var progress = document.getElementById('scroll-progress');
+    var navLinks = Array.prototype.slice.call(document.querySelectorAll('[data-nav-target]'));
+    var sections = navLinks.map(function(link) {
+        return document.getElementById(link.getAttribute('data-nav-target'));
+    }).filter(Boolean);
+
+    function updateProgress() {
+        if (!progress) return;
+        var scrollable = document.documentElement.scrollHeight - window.innerHeight;
+        var ratio = scrollable > 0 ? window.scrollY / scrollable : 0;
+        progress.style.transform = 'scaleX(' + Math.max(0, Math.min(1, ratio)) + ')';
+    }
+
+    function updateActiveNav() {
+        if (!sections.length) return;
+        var current = sections[0].id;
+        sections.forEach(function(section) {
+            if (section.getBoundingClientRect().top <= 120) {
+                current = section.id;
+            }
+        });
+        navLinks.forEach(function(link) {
+            var active = link.getAttribute('data-nav-target') === current;
+            link.classList.toggle('is-active', active);
+            if (active) {
+                link.setAttribute('aria-current', 'page');
+            } else {
+                link.removeAttribute('aria-current');
+            }
+        });
+    }
+
+    window.addEventListener('scroll', function() {
+        updateProgress();
+        updateActiveNav();
+    }, { passive: true });
+    window.addEventListener('resize', updateProgress);
+    updateProgress();
+    updateActiveNav();
 }
 
 function initBackToTop() {
