@@ -80,27 +80,27 @@ function initGeekCommand() {
 
     var sessions = [
         {
-            command: '今日状态',
+            command: 'sys.profile',
             lines: [
-                '正在维护 Android / Magisk 相关项目',
-                '重点关注后台进程治理和充电策略',
-                '希望工具小一点，但确实有用'
+                'role: Android / Magisk tinkerer',
+                'focus: process control · charging strategy',
+                'goal: small tools, real daily wins'
             ]
         },
         {
-            command: '技术栈',
+            command: 'stack.trace',
             lines: [
-                '常用 Shell、C、CSS 和 JavaScript',
-                '偏爱轻量、直接、容易维护的实现',
-                '这个主页也保持纯静态'
+                'Shell + C for modules',
+                'HTML + CSS + JS for this page',
+                'bias: lightweight, readable, maintainable'
             ]
         },
         {
-            command: '小彩蛋',
+            command: 'idea.queue',
             lines: [
-                '一只做梦的猫正在整理下一个点子',
-                '灵感不一定每天都有，但会继续折腾',
-                '谢谢你点开这个小角落'
+                'next: polish one detail, ship one build',
+                'note: 灵感可以慢一点，提交要干净一点',
+                'signal: thanks for probing this tiny endpoint'
             ]
         }
     ];
@@ -112,7 +112,7 @@ function initGeekCommand() {
         void output.offsetWidth;
         output.classList.add('is-active');
         button.classList.add('is-running');
-        button.textContent = '再换一句';
+        button.textContent = 'next tick';
         output.innerHTML = '<span class="command-text">' + escapeHtml(session.command) + '</span>' +
             session.lines.map(function(line, lineIndex) {
                 var className = lineIndex === 0 ? 'command-line' : 'command-line dim';
