@@ -27,22 +27,13 @@ function initAnnouncement() {
 
 function initGitHubEnhancement() {
     var repoStars = document.querySelectorAll('[data-stars-for]');
-    var followerEl = document.querySelector('[data-github-followers]');
     var totalStarsEl = document.querySelector('[data-total-stars]');
-    if (!repoStars.length && !followerEl && !totalStarsEl) return;
+    if (!repoStars.length && !totalStarsEl) return;
 
-    Promise.all([
-        fetch('https://api.github.com/users/tanxue0118').then(assertOk).then(function(response) { return response.json(); }),
-        fetch('https://api.github.com/users/tanxue0118/repos?per_page=100&sort=updated').then(assertOk).then(function(response) { return response.json(); })
-    ])
-        .then(function(results) {
-            var user = results[0];
-            var repos = results[1];
-
-            if (followerEl && typeof user.followers === 'number') {
-                followerEl.textContent = user.followers;
-            }
-
+    fetch('https://api.github.com/users/tanxue0118/repos?per_page=100&sort=updated')
+        .then(assertOk)
+        .then(function(response) { return response.json(); })
+        .then(function(repos) {
             if (totalStarsEl) {
                 var totalStars = repos.reduce(function(sum, repo) {
                     return sum + repo.stargazers_count;
