@@ -80,27 +80,27 @@ function initGeekCommand() {
 
     var sessions = [
         {
-            command: './whoami',
+            command: '今日状态',
             lines: [
-                'user: tanxue0118',
-                'role: Android / Magisk tinkerer',
-                'focus: ProcessKill + charge-turbo'
+                '正在维护 Android / Magisk 相关项目',
+                '重点关注后台进程治理和充电策略',
+                '希望工具小一点，但确实有用'
             ]
         },
         {
-            command: './stack --short',
+            command: '技术栈',
             lines: [
-                'shell, c, css, javascript',
-                'target: cleaner Android system experience',
-                'mode: small tools, useful defaults'
+                '常用 Shell、C、CSS 和 JavaScript',
+                '偏爱轻量、直接、容易维护的实现',
+                '这个主页也保持纯静态'
             ]
         },
         {
-            command: './cat dream.log',
+            command: '小彩蛋',
             lines: [
-                '一只做梦的猫正在编译下一个点子',
-                'warning: curiosity level is still high',
-                'status: shipped tiny geek detail'
+                '一只做梦的猫正在整理下一个点子',
+                '灵感不一定每天都有，但会继续折腾',
+                '谢谢你点开这个小角落'
             ]
         }
     ];
@@ -112,9 +112,8 @@ function initGeekCommand() {
         void output.offsetWidth;
         output.classList.add('is-active');
         button.classList.add('is-running');
-        button.textContent = session.command;
-        output.innerHTML = '<span class="prompt">guest@tanxue</span>' +
-            '<span class="command-text">' + escapeHtml(session.command) + '</span>' +
+        button.textContent = '再换一句';
+        output.innerHTML = '<span class="command-text">' + escapeHtml(session.command) + '</span>' +
             session.lines.map(function(line, lineIndex) {
                 var className = lineIndex === 0 ? 'command-line' : 'command-line dim';
                 return '<span class="' + className + '">' + escapeHtml(line) + '</span>';
